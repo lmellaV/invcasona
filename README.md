@@ -62,28 +62,27 @@ pip install -r requirements.txt
 
 ```
 invcasona/
-├── app.py                          # Punto de entrada principal
 ├── README.md                       # Documentación del proyecto
 ├── CHANGELOG.md                    # Historial de versiones
 ├── CONTRIBUTING.md                 # Guía de contribución
 ├── TECHNICAL.md                    # Documentación técnica
 ├── requirements.txt                # Dependencias del proyecto
 ├── .gitignore                      # Archivos ignorados por Git
+├── .streamlit/
+│   └── config.toml                # Configuración visual de Streamlit
 │
-├── invcasona/
-│   ├── Inventarios.py             # Aplicación principal con Google Sheets
-│   ├── Recetario.xlsx             # Mapeo de productos y factores de conversión
-│   ├── Output.xlsx                # Inventario base de productos
-│   ├── Resultado_Inventario.xlsx  # Resultado del último procesamiento
-│   ├── casona-key.json            # 🔐 Credenciales de Google (NO versionar)
-│   ├── temp_credentials.json      # 🔐 Credenciales temporales (NO versionar)
-│   ├── Prueba.ipynb              # Notebook de pruebas y desarrollo
-│   ├── pages/
-│   │   └── Pedidos.py            # Página: Generador de pedidos por proveedor
-│   └── __pycache__/               # Caché de Python
-│
-└── .streamlit/
-    └── config.toml                # Configuración visual de Streamlit
+└── invcasona/
+    ├── Inventarios.py             # 🚀 Aplicación principal (ejecutar esto)
+    ├── Recetario.xlsx             # Mapeo de productos y factores de conversión
+    ├── Output.xlsx                # Inventario base de productos
+    ├── export.csv                 # Reporte de ventas de ejemplo
+    ├── Resultado_Inventario.xlsx  # Resultado del último procesamiento
+    ├── casona-key.json            # 🔐 Credenciales de Google (NO versionar)
+    ├── temp_credentials.json      # 🔐 Credenciales temporales (NO versionar)
+    ├── Prueba.ipynb              # Notebook de pruebas y desarrollo
+    ├── pages/
+    │   └── Pedidos.py            # Página: Generador de pedidos por proveedor
+    └── __pycache__/               # Caché de Python
 ```
 
 ## 🔧 Configuración
@@ -150,22 +149,29 @@ Si deseas usar la función de envío automático a Google Sheets:
 
 ## 🎮 Uso
 
-### Ejecutar la aplicación (desde la raíz del proyecto)
+### Ejecutar la aplicación
+
+Desde la carpeta raíz del proyecto:
 
 ```bash
-streamlit run app.py
+streamlit run invcasona/Inventarios.py
 ```
 
-**Nota:** El archivo `app.py` en la raíz actúa como punto de entrada y redirige automáticamente a `Inventarios.py` en la carpeta `invcasona/` con las rutas configuradas correctamente.
+O desde la carpeta `invcasona/`:
+
+```bash
+cd invcasona
+streamlit run Inventarios.py
+```
 
 Accede a `http://localhost:8501` en tu navegador.
 
 ### Estructura de Streamlit
 
-- **Página principal**: `Inventarios.py` (con integración de Google Sheets)
-- **Página secundaria**: `pages/Pedidos.py` (Generador de pedidos por proveedor)
+- **Página principal**: `invcasona/Inventarios.py` (con integración de Google Sheets)
+- **Página secundaria**: `invcasona/pages/Pedidos.py` (Generador de pedidos por proveedor)
 
-Las páginas en la carpeta `pages/` se cargan automáticamente en Streamlit.
+Las páginas en la carpeta `invcasona/pages/` se cargan automáticamente en Streamlit.
 
 ## 📝 Flujo de trabajo
 
