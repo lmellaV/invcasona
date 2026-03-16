@@ -61,20 +61,29 @@ pip install -r requirements.txt
 ## 📁 Estructura del proyecto
 
 ```
-casona-receta/
-├── app.py                          # Versión simplificada sin Google Sheets
-├── README.md                       # Este archivo
+invcasona/
+├── app.py                          # Punto de entrada principal
+├── README.md                       # Documentación del proyecto
+├── CHANGELOG.md                    # Historial de versiones
+├── CONTRIBUTING.md                 # Guía de contribución
+├── TECHNICAL.md                    # Documentación técnica
 ├── requirements.txt                # Dependencias del proyecto
-├── export.csv                      # Ejemplo de reporte de ventas
+├── .gitignore                      # Archivos ignorados por Git
+│
 ├── invcasona/
-│   ├── Inventarios.py             # Versión completa con Google Sheets
-│   ├── casona-key.json            # Credenciales de Google (no versionar)
-│   ├── Recetario.xlsx             # Mapeo de productos y factores
-│   ├── output.xlsx                # Inventario base de productos
-│   ├── temp_credentials.json      # Credenciales temporales (no versionar)
-│   ├── Prueba.ipynb              # Notebook de pruebas
-│   └── pages/
-│       └── Pedidos.py            # Generador de pedidos por proveedor
+│   ├── Inventarios.py             # Aplicación principal con Google Sheets
+│   ├── Recetario.xlsx             # Mapeo de productos y factores de conversión
+│   ├── Output.xlsx                # Inventario base de productos
+│   ├── Resultado_Inventario.xlsx  # Resultado del último procesamiento
+│   ├── casona-key.json            # 🔐 Credenciales de Google (NO versionar)
+│   ├── temp_credentials.json      # 🔐 Credenciales temporales (NO versionar)
+│   ├── Prueba.ipynb              # Notebook de pruebas y desarrollo
+│   ├── pages/
+│   │   └── Pedidos.py            # Página: Generador de pedidos por proveedor
+│   └── __pycache__/               # Caché de Python
+│
+└── .streamlit/
+    └── config.toml                # Configuración visual de Streamlit
 ```
 
 ## 🔧 Configuración
@@ -99,13 +108,13 @@ Debe contener una hoja con las siguientes columnas:
 | 2 | Filete | Filete | 0.95 |
 | 3 | Patita | Patitas | 2.0 |
 
-#### 2. **output.xlsx** (invcasona/)
+#### 2. **Output.xlsx** (invcasona/)
 
 Archivo con la lista de productos disponibles:
 
 - `Productos` - Nombre del producto base
 
-#### 3. **export.csv** (carpeta raíz)
+#### 3. **export.csv** (invcasona/)
 
 Reporte de ventas con:
 
@@ -141,36 +150,33 @@ Si deseas usar la función de envío automático a Google Sheets:
 
 ## 🎮 Uso
 
-### Versión simplificada (sin Google Sheets)
+### Ejecutar la aplicación (desde la raíz del proyecto)
 
 ```bash
-cd invcasona
-streamlit run ../app.py
+streamlit run app.py
 ```
 
-### Versión completa (con Google Sheets)
-
-```bash
-cd invcasona
-streamlit run Inventarios.py
-```
+**Nota:** El archivo `app.py` en la raíz actúa como punto de entrada y redirige automáticamente a `Inventarios.py` en la carpeta `invcasona/` con las rutas configuradas correctamente.
 
 Accede a `http://localhost:8501` en tu navegador.
 
-### Generador de Pedidos
+### Estructura de Streamlit
 
-La página de pedidos está disponible automáticamente como una página secundaria de Streamlit (requiere la estructura `pages/`).
+- **Página principal**: `Inventarios.py` (con integración de Google Sheets)
+- **Página secundaria**: `pages/Pedidos.py` (Generador de pedidos por proveedor)
+
+Las páginas en la carpeta `pages/` se cargan automáticamente en Streamlit.
 
 ## 📝 Flujo de trabajo
 
-1. **Cargar archivos base** - El programa lee automáticamente `Recetario.xlsx` y `output.xlsx`
-2. **Subir reporte de ventas** - Arrastra el archivo `export.csv` a la interfaz
+1. **Cargar archivos base** - El programa lee automáticamente `Recetario.xlsx` y `Output.xlsx` desde la carpeta `invcasona/`
+2. **Subir reporte de ventas** - Arrastra el archivo `export.csv` a la interfaz (o sube uno nuevo)
 3. **Procesamiento automático**:
    - Limpia y estandariza los datos
    - Cruza ventas con factores de conversión
    - Calcula consumo total por producto
-4. **Descargar resultados** - Obtén el Excel con los datos procesados
-5. **(Opcional) Enviar a Google Sheets** - Los datos se actualizan automáticamente en la columna E de la hoja "INICIO/FIN/DIF"
+4. **Descargar resultados** - Obtén el Excel con los datos procesados (`Resultado_Inventario.xlsx`)
+5. **(Opcional) Enviar a Google Sheets** - Proporciona la URL de tu Google Sheet y los datos se actualizan en la columna E de la hoja "INICIO/FIN/DIF"
 
 ## 🔄 Transformaciones de datos
 
